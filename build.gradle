@@ -2,7 +2,6 @@ plugins {
     id 'java'
     id "com.google.protobuf" version "0.8.6"
 }
-apply plugin: 'com.google.protobuf'
 
 group 'kz.ya'
 version '1.0'
@@ -13,7 +12,8 @@ repositories {
     mavenCentral()
 }
 
-def grpcVersion = '1.17.0-SNAPSHOT'
+//def grpcVersion = '1.17.0-SNAPSHOT'
+def grpcVersion = '1.16.1'
 
 dependencies {
     compile group: 'io.grpc', name: 'grpc-netty-shaded', version: grpcVersion
@@ -29,7 +29,7 @@ protobuf {
     }
     plugins {
         grpc {
-            artifact = 'io.grpc:protoc-gen-grpc-java:${grpcVersion}'
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.16.1'
         }
     }
     generateProtoTasks {
