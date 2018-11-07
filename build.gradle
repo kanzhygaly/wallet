@@ -7,19 +7,25 @@ group 'kz.ya'
 version '1.0'
 
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
 }
 
-//def grpcVersion = '1.17.0-SNAPSHOT'
 def grpcVersion = '1.16.1'
 
 dependencies {
     compile group: 'io.grpc', name: 'grpc-netty-shaded', version: grpcVersion
     compile group: 'io.grpc', name: 'grpc-protobuf', version: grpcVersion
     compile group: 'io.grpc', name: 'grpc-stub', version: grpcVersion
+    
+    compile group: 'io.grpc', name: 'grpc-alts', version: grpcVersion
+    compile group: 'com.google.api.grpc', name: 'proto-google-common-protos', version: '1.0.0'
+    compile group: 'com.google.protobuf', name: 'protobuf-java-util', version: '3.5.1'
+    compileOnly group: 'javax.annotation', name: 'javax.annotation-api', version: '1.2'
 
+    testCompile group: 'io.grpc', name: 'grpc-testing', version: grpcVersion
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
@@ -29,7 +35,7 @@ protobuf {
     }
     plugins {
         grpc {
-            artifact = 'io.grpc:protoc-gen-grpc-java:1.16.1'
+            artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
         }
     }
     generateProtoTasks {
@@ -38,3 +44,18 @@ protobuf {
         }
     }
 }
+
+// Inform IDEs like IntelliJ IDEA, Eclipse or NetBeans about the generated code.
+sourceSets {
+    main {
+        java {
+            srcDirs 'build/generated/source/proto/main/grpc'
+            srcDirs 'build/generated/source/proto/main/java'
+        }
+    }
+}
+
+// Provide convenience executables for trying out the examples.
+apply plugin: 'application'
+
+startScripts.enabled = false
