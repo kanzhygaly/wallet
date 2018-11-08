@@ -7,6 +7,8 @@ import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import java.io.IOException;
 import kz.ya.wallet.server.WalletService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -14,6 +16,7 @@ import kz.ya.wallet.server.WalletService;
  */
 public class WalletServer {
 
+    private final Logger logger = LoggerFactory.getLogger(WalletServer.class);
     private final int port;
     private final Server server;
 
@@ -28,12 +31,12 @@ public class WalletServer {
 
     /**
      * Start serving requests.
-     * 
+     *
      * @throws java.io.IOException
      */
     public void start() throws IOException {
         server.start();
-//        logger.info("Server started, listening on " + port);
+        logger.info("Server started, listening on " + port);
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
