@@ -1,2 +1,5 @@
 rootProject.name = 'wallet'
 
+include 'wallet-proto'
+
+include 'wallet-server'

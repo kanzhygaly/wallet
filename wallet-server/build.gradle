@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+def hibernateVersion = '5.3.7.Final'
+def grpcVersion = '1.16.1'   
+
+dependencies {    
+    compile project(':wallet-proto') // link to proto lib
+
+    compile group: 'io.grpc', name: 'grpc-netty-shaded', version: grpcVersion // Netty-based transport
+    compile group: 'io.grpc', name: 'grpc-stub', version: grpcVersion
+
+    compile group: 'javax.transaction', name: 'jta', version: '1.1'
+    compile group: 'c3p0', name: 'c3p0', version: '0.9.1.2'
+    compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: hibernateVersion
+    compile group: 'org.hibernate', name: 'hibernate-c3p0', version: hibernateVersion
+    
+    // SLF4J
+    compile group: 'org.slf4j', name:'slf4j-api', version: '1.7.9'
+    compile group: 'ch.qos.logback', name:'logback-classic', version: '1.0.13'
+    compile group: 'ch.qos.logback', name:'logback-core', version: '1.0.13'
+
+    testCompile group: 'io.grpc', name: 'grpc-testing', version: grpcVersion
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+// Define the main class used for the executable artifacts
+mainClassName = 'kz.ya.wallet.WalletServer'

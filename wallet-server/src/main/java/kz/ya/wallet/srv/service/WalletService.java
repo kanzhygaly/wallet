@@ -1,7 +1,7 @@
 /*
  * Implementation of WalletService
  */
-package kz.ya.wallet.server;
+package kz.ya.wallet.srv.service;
 
 import io.grpc.stub.StreamObserver;
 import kz.ya.wallet.BalanceRequest;

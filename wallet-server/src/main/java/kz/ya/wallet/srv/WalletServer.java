@@ -1,12 +1,12 @@
 /*
  * gRPC server that serve the WalletService (see WalletService.proto) service
  */
-package kz.ya.wallet;
+package kz.ya.wallet.srv;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import java.io.IOException;
-import kz.ya.wallet.server.WalletService;
+import kz.ya.wallet.srv.service.WalletService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
