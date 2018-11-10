@@ -42,7 +42,7 @@ public class AccountDAOImpl implements AccountDAO {
         try {
             DbConnection.beginTransaction();
 
-            account = DbConnection.getEntityManager().merge(new Account(accountNo));
+//            account = DbConnection.getEntityManager().merge(new Account(accountNo));
             
             DbConnection.commit();
         } catch (RuntimeException e) {
@@ -107,7 +107,7 @@ public class AccountDAOImpl implements AccountDAO {
             BigDecimal balance = targetAccount.getBalance().add(deltaAmount);
             if (balance.compareTo(BigDecimal.ZERO) < 0) {
                 throw new CommonException("Not enough funds on account : "
-                        + targetAccount.getAccountNo());
+                        + targetAccount.getUserId());
             }
 
             // proceed with update
@@ -158,7 +158,7 @@ public class AccountDAOImpl implements AccountDAO {
             BigDecimal leftAmount = fromAccount.getBalance().subtract(dto.getAmount());
             if (leftAmount.compareTo(BigDecimal.ZERO) < 0) {
                 throw new CommonException("Not enough funds on account : "
-                        + fromAccount.getAccountNo());
+                        + fromAccount.getUserId());
             }
 
             // proceed with update
