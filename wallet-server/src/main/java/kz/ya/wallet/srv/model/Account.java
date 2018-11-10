@@ -3,6 +3,7 @@ package kz.ya.wallet.srv.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,7 +20,9 @@ public class Account implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private User user;
+    @Column(unique=true, nullable=false) 
+    private Long userId;
+    @Column(length=3)
     private String currencyCode;
     private BigDecimal balance;
     @Version
@@ -28,8 +31,10 @@ public class Account implements Serializable {
     public Account() {
     }
 
-    public Account(User user) {
-        this.user = user;
+    public Account(Long userId, String currencyCode, BigDecimal balance) {
+        this.userId = userId;
+        this.currencyCode = currencyCode;
+        this.balance = balance;
     }
 
     public Long getId() {
@@ -40,12 +45,12 @@ public class Account implements Serializable {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getCurrencyCode() {
@@ -66,9 +71,10 @@ public class Account implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 97 * hash + Objects.hashCode(this.id);
-        hash = 97 * hash + Objects.hashCode(this.user);
+        int hash = 5;
+        hash = 47 * hash + Objects.hashCode(this.id);
+        hash = 47 * hash + Objects.hashCode(this.userId);
+        hash = 47 * hash + Objects.hashCode(this.currencyCode);
         return hash;
     }
 
@@ -84,10 +90,13 @@ public class Account implements Serializable {
             return false;
         }
         final Account other = (Account) obj;
+        if (!Objects.equals(this.currencyCode, other.currencyCode)) {
+            return false;
+        }
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.user, other.user)) {
+        if (!Objects.equals(this.userId, other.userId)) {
             return false;
         }
         return true;
@@ -95,6 +104,6 @@ public class Account implements Serializable {
 
     @Override
     public String toString() {
-        return "Account{" + "id=" + id + ", user=" + user + ", currencyCode=" + currencyCode + ", balance=" + balance + '}';
+        return "Account{" + "id=" + id + ", userId=" + userId + ", currencyCode=" + currencyCode + ", balance=" + balance + '}';
     }
 }
