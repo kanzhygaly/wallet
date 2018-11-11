@@ -20,7 +20,8 @@ dependencies {
     compile group: 'c3p0', name: 'c3p0', version: '0.9.1.2'
     compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: hibernateVersion
     compile group: 'org.hibernate', name: 'hibernate-c3p0', version: hibernateVersion
-    
+    compile group: 'org.postgresql', name: 'postgresql', version: '42.2.5'
+
     // SLF4J
     compile group: 'org.slf4j', name:'slf4j-api', version: '1.7.9'
     compile group: 'ch.qos.logback', name:'logback-classic', version: logbackVersion
@@ -32,3 +33,12 @@ dependencies {
 
 // Define the main class used for the executable artifacts
 mainClassName = 'kz.ya.wallet.WalletServer'
+
+jar {
+    manifest {
+        attributes "Main-Class": "$mainClassName"
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}

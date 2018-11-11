@@ -3,18 +3,21 @@ package kz.ya.wallet.srv.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Version;
+import javax.persistence.*;
 
 /**
  *
  * @author Yerlan
  */
 @Entity
+@NamedQueries({
+        @NamedQuery(
+                name = "Account.findAllByUserId",
+                query = "SELECT a FROM Account a WHERE a.userId = :userId"),
+        @NamedQuery(
+                name = "Account.findAllByUserIdAndCurrency",
+                query = "SELECT a FROM Account a WHERE a.userId = :userId AND a.currencyCode = :currencyCode")
+})
 public class Account implements Serializable {
 
     @Id
@@ -104,6 +107,6 @@ public class Account implements Serializable {
 
     @Override
     public String toString() {
-        return "Account{" + "id=" + id + ", userId=" + userId + ", currencyCode=" + currencyCode + ", balance=" + balance + '}';
+        return "Account { userId = " + userId + ", currencyCode = " + currencyCode + " }";
     }
 }

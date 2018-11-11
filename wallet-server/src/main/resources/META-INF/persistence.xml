@@ -10,12 +10,11 @@
         <class>kz.ya.wallet.srv.model.Account</class>
         
         <properties>
-            <property name="hibernate.connection.driver_class" value="org.h2.Driver" />
-            <property name="hibernate.connection.username" value="" />
-            <property name="hibernate.connection.password" value="" />
-            <!--<property name="hibernate.connection.url" value="jdbc:h2:./h2_db" /> file DB -->
-            <property name="hibernate.connection.url" value="jdbc:h2:mem:h2_db" />
-            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
+            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver" />
+            <property name="hibernate.connection.username" value="admin" />
+            <property name="hibernate.connection.password" value="admin" />
+            <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/wallet" />
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL95Dialect" />
             <property name="hibernate.hbm2ddl.auto" value="create-drop" />            
             
             <!-- Connection Pool -->

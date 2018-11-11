@@ -6,13 +6,14 @@ package kz.ya.wallet.srv;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import java.io.IOException;
+
+import kz.ya.wallet.srv.dao.impl.AccountDAOImpl;
 import kz.ya.wallet.srv.service.WalletService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
- * @author yerlana
+ * @author Yerlan
  */
 public class WalletServer {
 
@@ -26,7 +27,7 @@ public class WalletServer {
 
     public WalletServer(ServerBuilder<?> serverBuilder, int port) {
         this.port = port;
-        server = serverBuilder.addService(new WalletService()).build();
+        server = serverBuilder.addService(new WalletService(new AccountDAOImpl())).build();
     }
 
     /**
