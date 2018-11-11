@@ -1,6 +1,5 @@
 package kz.ya.wallet.srv.service;
 
-import io.grpc.StatusRuntimeException;
 import kz.ya.wallet.*;
 import kz.ya.wallet.srv.WalletServerTest;
 import kz.ya.wallet.srv.dao.AccountDAO;
@@ -15,7 +14,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import java.math.BigDecimal;
-import java.util.Map;
 
 /**
  * @author Yerlan
