@@ -5,7 +5,7 @@ import kz.ya.wallet.srv.WalletServerTest;
 import kz.ya.wallet.srv.dao.AccountDAO;
 import kz.ya.wallet.srv.dao.impl.AccountDAOImpl;
 import kz.ya.wallet.srv.exception.InsufficientFundsException;
-import kz.ya.wallet.srv.model.Account;
+import kz.ya.wallet.srv.entity.Account;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

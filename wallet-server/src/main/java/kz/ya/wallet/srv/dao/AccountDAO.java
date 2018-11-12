@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import kz.ya.wallet.srv.exception.AccountNotFoundException;
 import kz.ya.wallet.srv.exception.InsufficientFundsException;
-import kz.ya.wallet.srv.model.Account;
+import kz.ya.wallet.srv.entity.Account;
 
 /**
  *

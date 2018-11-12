@@ -10,13 +10,12 @@ import kz.ya.wallet.srv.dao.AccountDAO;
 import kz.ya.wallet.srv.exception.AccountNotFoundException;
 import kz.ya.wallet.srv.exception.NotValidAmountException;
 import kz.ya.wallet.srv.exception.UnknownCurrencyException;
-import kz.ya.wallet.srv.model.Account;
+import kz.ya.wallet.srv.entity.Account;
 import kz.ya.wallet.srv.util.CurrencyUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package kz.ya.wallet.srv.model;
+package kz.ya.wallet.srv.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -21,7 +21,9 @@ import javax.persistence.*;
 public class Account implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name="my_seq", sequenceName="seq_id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "my_seq")
     private Long id;
     @Column(unique=true, nullable=false) 
     private Long userId;

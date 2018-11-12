@@ -10,7 +10,7 @@ import kz.ya.wallet.srv.dao.AccountDAO;
 import kz.ya.wallet.srv.exception.AccountLockException;
 import kz.ya.wallet.srv.exception.AccountNotFoundException;
 import kz.ya.wallet.srv.exception.InsufficientFundsException;
-import kz.ya.wallet.srv.model.Account;
+import kz.ya.wallet.srv.entity.Account;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

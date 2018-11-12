@@ -11,8 +11,8 @@
         
         <properties>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver" />
-            <property name="hibernate.connection.username" value="admin" />
-            <property name="hibernate.connection.password" value="admin" />
+            <property name="hibernate.connection.username" value="wallet_user" />
+            <property name="hibernate.connection.password" value="wallet_pass" />
             <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/wallet" />
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL95Dialect" />
             <property name="hibernate.hbm2ddl.auto" value="create-drop" />            
