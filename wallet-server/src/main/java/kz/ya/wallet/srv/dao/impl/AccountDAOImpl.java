@@ -38,18 +38,17 @@ public class AccountDAOImpl implements AccountDAO {
     /**
      * Find all User's accounts by Currency
      *
-     * @param userId       User ID
+     * @param userId User ID
      * @param currencyCode Currency 3-char CODE
      * @return existing Account if found, else NULL
      */
     @Override
     public Optional<Account> findByUserIdAndCurrency(Long userId, String currencyCode) {
-        return Optional.ofNullable((Account)
-                DbConnection.getEntityManager()
-                        .createNamedQuery("Account.findAllByUserIdAndCurrency")
-                        .setParameter("userId", userId)
-                        .setParameter("currencyCode", currencyCode)
-                        .setMaxResults(1).getSingleResult());
+        return Optional.ofNullable((Account) DbConnection.getEntityManager()
+                .createNamedQuery("Account.findAllByUserIdAndCurrency")
+                .setParameter("userId", userId)
+                .setParameter("currencyCode", currencyCode)
+                .setMaxResults(1).getSingleResult());
     }
 
     /**
@@ -103,11 +102,33 @@ public class AccountDAOImpl implements AccountDAO {
     }
 
     /**
+     * Delete all User's accounts.
+     *
+     * @param userId User ID
+     * @return the number Accounts that have been deleted by the query
+     */
+    @Override
+    public int deleteByUserId(Long userId) {
+        DbConnection.beginTransaction();
+
+        int deletedCount = DbConnection.getEntityManager()
+                .createNamedQuery("Account.deleteByUserId")
+                .setParameter("userId", userId)
+                .executeUpdate();
+
+        DbConnection.commit();
+
+        DbConnection.closeEntityManager();
+        
+        return deletedCount;
+    }
+
+    /**
      * Update account balance.
      *
-     * @param accountId   Account ID
+     * @param accountId Account ID
      * @param deltaAmount Delta Amount
-     * @throws AccountLockException       if Account lock fails
+     * @throws AccountLockException if Account lock fails
      * @throws InsufficientFundsException if not enough funds on Account
      */
     @Override

@@ -10,12 +10,21 @@
         <class>kz.ya.wallet.srv.model.Account</class>
         
         <properties>
+            <!-- DB Connection -->
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver" />
             <property name="hibernate.connection.username" value="wallet_user" />
             <property name="hibernate.connection.password" value="wallet_pass" />
             <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/wallet" />
+            
+            <!-- Database-specific dialect -->
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL95Dialect" />
-            <property name="hibernate.hbm2ddl.auto" value="create-drop" />            
+            
+            <!-- Batching allows us to send multiple statements in one-shot, saving unnecessary socket stream flushing. -->
+            <property name="hibernate.jdbc.batch_size" value="15" />
+            <!-- Enable DML batching -->
+            <property name="hibernate.jdbc.batch_versioned_data" value="true" />
+            <property name="hibernate.order_inserts" value="true" />
+            <property name="hibernate.order_updates" value="true" />
             
             <!-- Connection Pool -->
             <property name="hibernate.c3p0.min_size" value="5"/>

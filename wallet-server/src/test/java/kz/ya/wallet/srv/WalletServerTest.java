@@ -15,16 +15,17 @@ public class WalletServerTest {
     /**
      * This rule manages automatic graceful shutdown for the registered channel at the end of test.
      */
+//    @Rule
+    @ClassRule
+    public final static GrpcCleanupRule grpcCleanup = new GrpcCleanupRule();
     @Rule
-    private final GrpcCleanupRule grpcCleanup = new GrpcCleanupRule();
-    @Rule
-    protected ExpectedException exceptionRule = ExpectedException.none();
+    public ExpectedException exceptionRule = ExpectedException.none();
 
-    private WalletServer server;
-    protected ManagedChannel inProcessChannel;
+    private static WalletServer server;
+    protected static ManagedChannel inProcessChannel;
 
     @BeforeClass
-    public void setUpClass() throws Exception {
+    public static void setUpClass() throws Exception {
         // Generate a unique in-process server name.
         String serverName = InProcessServerBuilder.generateName();
         // Use directExecutor for both InProcessServerBuilder and InProcessChannelBuilder can reduce the
@@ -38,7 +39,7 @@ public class WalletServerTest {
     }
 
     @AfterClass
-    public void tearDownClass() {
+    public static void tearDownClass() {
         // close connections and shutdown the server
         DbConnection.closeEntityManagerFactory();
         server.stop();

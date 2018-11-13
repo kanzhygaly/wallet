@@ -16,19 +16,22 @@ import javax.persistence.*;
                 query = "SELECT a FROM Account a WHERE a.userId = :userId"),
         @NamedQuery(
                 name = "Account.findAllByUserIdAndCurrency",
-                query = "SELECT a FROM Account a WHERE a.userId = :userId AND a.currencyCode = :currencyCode")
+                query = "SELECT a FROM Account a WHERE a.userId = :userId AND a.currencyCode = :currencyCode"),
+        @NamedQuery(
+                name = "Account.deleteByUserId",
+                query = "DELETE FROM Account a WHERE a.userId = :userId")
 })
 public class Account implements Serializable {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
     @SequenceGenerator(name="my_seq", sequenceName="seq_id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "my_seq")
     private Long id;
-    @Column(unique=true, nullable=false) 
+    @Column(nullable=false) 
     private Long userId;
-    @Column(length=3)
+    @Column(length=3, nullable=false)
     private String currencyCode;
+    @Column(nullable = false)
     private BigDecimal balance;
     @Version
     public long version;

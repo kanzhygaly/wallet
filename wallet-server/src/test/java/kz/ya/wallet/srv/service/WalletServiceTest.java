@@ -27,15 +27,17 @@ public class WalletServiceTest extends WalletServerTest {
     @Before
     public void setUp() {
         // USD account
-        accountDAO.saveOrUpdate(new Account(userId, Currency.USD.name(), BigDecimal.ZERO));
+        Account usd = accountDAO.saveOrUpdate(new Account(userId, Currency.USD.name(), BigDecimal.ZERO));
         // EUR account
-        accountDAO.saveOrUpdate(new Account(userId, Currency.EUR.name(), BigDecimal.ZERO));
+        Account eur = accountDAO.saveOrUpdate(new Account(userId, Currency.EUR.name(), BigDecimal.ZERO));
         // GBP account
-        accountDAO.saveOrUpdate(new Account(userId, Currency.GBP.name(), BigDecimal.ZERO));
+        Account gbp = accountDAO.saveOrUpdate(new Account(userId, Currency.GBP.name(), BigDecimal.ZERO));
     }
 
     @After
     public void tearDown() {
+        int num = accountDAO.deleteByUserId(userId);
+        System.out.println(num + " Accounts for User " + userId + " were deleted");
     }
 
     @Test

@@ -5,7 +5,7 @@ import kz.ya.wallet.srv.exception.UnknownCurrencyException;
 import java.util.Currency;
 
 public class CurrencyUtil {
-
+    
     /**
      * Validate Currency Code
      *

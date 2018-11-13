@@ -14,6 +14,8 @@ dependencies {
     compile group: 'io.grpc', name: 'grpc-alts', version: grpcVersion    
     compile group: 'com.google.api.grpc', name: 'proto-google-common-protos', version: '1.12.0'
     compile group: 'com.google.protobuf', name: 'protobuf-java-util', version: protoVersion
+    compile group: 'io.grpc', name: 'grpc-netty-shaded', version: grpcVersion // Netty-based transport
+    compile group: 'io.grpc', name: 'grpc-stub', version: grpcVersion
 }
 
 protobuf {

@@ -13,14 +13,12 @@ def logbackVersion = '1.0.13'
 dependencies {    
     compile project(':wallet-proto') // link to proto lib
 
-    compile group: 'io.grpc', name: 'grpc-netty-shaded', version: grpcVersion // Netty-based transport
-    compile group: 'io.grpc', name: 'grpc-stub', version: grpcVersion
-
     compile group: 'javax.transaction', name: 'jta', version: '1.1'
     compile group: 'c3p0', name: 'c3p0', version: '0.9.1.2'
     compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: hibernateVersion
     compile group: 'org.hibernate', name: 'hibernate-c3p0', version: hibernateVersion
     compile group: 'org.postgresql', name: 'postgresql', version: '42.2.5'
+//    compile group: 'postgresql', name: 'postgresql', version: '9.1-901-1.jdbc4'
 
     // SLF4J
     compile group: 'org.slf4j', name:'slf4j-api', version: '1.7.9'

@@ -3,6 +3,7 @@
 .gradle/
 bin/
 /subprojects/*/build
+log/
 
 ### IntelliJ IDEA ###
 .idea

@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-import kz.ya.wallet.srv.exception.AccountNotFoundException;
-import kz.ya.wallet.srv.exception.InsufficientFundsException;
 import kz.ya.wallet.srv.entity.Account;
 
 /**
@@ -23,6 +21,8 @@ public interface AccountDAO {
     Account saveOrUpdate(Account entity);
 
     void delete(Long id);
+    
+    int deleteByUserId(Long userId);
 
     void updateAccountBalance(Long accountId, BigDecimal deltaAmount);
 }

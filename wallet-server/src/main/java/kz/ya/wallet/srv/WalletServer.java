@@ -38,7 +38,9 @@ public class WalletServer {
     public void start() throws IOException {
         server.start();
         logger.info("Server started, listening on " + port);
+
         Runtime.getRuntime().addShutdownHook(new Thread() {
+
             @Override
             public void run() {
                 // Use stderr here since the logger may has been reset by its JVM shutdown hook.
@@ -54,6 +56,9 @@ public class WalletServer {
      */
     public void stop() {
         if (server != null) {
+//            System.err.println("*** close Database Connections");
+//            DbConnection.closeEntityManagerFactory();
+
             server.shutdown();
         }
     }
