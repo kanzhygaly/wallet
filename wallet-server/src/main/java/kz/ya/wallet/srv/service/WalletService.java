@@ -68,7 +68,6 @@ public class WalletService extends WalletServiceGrpc.WalletServiceImplBase {
             responseObserver.onError(Status.INTERNAL
                     .withDescription(ex.getMessage())
                     .augmentDescription("Unknown currency")
-//                    .withCause(ex) // This can be attached to the Status locally, but NOT transmitted to the client!
                     .asRuntimeException());
             return;
         }

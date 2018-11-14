@@ -1,21 +1,10 @@
 # wallet
-**wallet** ...
 
-## Supported functionality
- - 1
- - 2
- - 3
- - 4
+**wallet-proto** API side of wallet project which generates data access Java classes from proto definition file. It defines a gRPC service, specifying the methods that can be called remotely with their parameters and return types.
 
-## Technology stack
- - 1
- - 2
- - 3
- - 4
- 
-## Build and Run
-Build the project
- > ...
- 
-Run the application (Maven)
- > ...
+## Prerequisites
+ - Gradle 4.10.2
+ - Java 1.8
+ - Protobuf Gradle Plugin 0.8.7
+ - gRPC 1.16.1
+ - Proto 3.6.1

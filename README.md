@@ -1,17 +1,17 @@
 # wallet
-**wallet** ...
 
-## Supported functionality
- - 1
- - 2
- - 3
- - 4
+**wallet-proto** gRPC Service Interface (API).
+**wallet-server** keeps track of a users monetary balance in the system.
+**wallet-client** emulates users depositing and withdrawing funds.
 
 ## Technology stack
- - 1
- - 2
- - 3
- - 4
+ - Java 8
+ - gRPC
+ - JPA/Hibernate
+ - PostgreSQL
+ - Gradle
+ - JUnit 4
+ - SLF4J
  
 ## Database Setup
  - Install PostgreSQL, my local is v10.1
@@ -26,7 +26,7 @@
  - Logout from PostgreSQL server
  > \q
  - Create Database Data
- > psql -U wallet_user -d wallet -a -f wallet-server\create-db.sql
+ > psql -U wallet_user -d wallet -a -f wallet-server/create-db.sql
 
 ## Build and Run
 Build the project
@@ -36,6 +36,11 @@ Build the project
 - If you want to run the tests on Wallet Server, simply run
 > ./gradlew :wallet-server:test
 
-Run the server
+To run the Java server and client locally:
+```
+# Start the server (listens on port 8980)
+java -jar wallet-server/build/libs/wallet-server-1.0.jar
 
-Run the client
+# Run the client (connects to localhost:8980)
+java -jar wallet-client/build/libs/wallet-client-1.0.jar
+```

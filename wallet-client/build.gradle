@@ -6,31 +6,21 @@ plugins {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-def hibernateVersion = '5.3.7.Final'
-def grpcVersion = '1.16.1'
 def logbackVersion = '1.0.13'
 
 dependencies {    
     compile project(':wallet-proto') // link to proto lib
 
-    compile group: 'javax.transaction', name: 'jta', version: '1.1'
-    compile group: 'c3p0', name: 'c3p0', version: '0.9.1.2'
-    compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: hibernateVersion
-    compile group: 'org.hibernate', name: 'hibernate-c3p0', version: hibernateVersion
-    compile group: 'org.postgresql', name: 'postgresql', version: '42.2.5'
-//    compile group: 'postgresql', name: 'postgresql', version: '9.1-901-1.jdbc4'
-
     // SLF4J
     compile group: 'org.slf4j', name:'slf4j-api', version: '1.7.9'
     compile group: 'ch.qos.logback', name:'logback-classic', version: logbackVersion
     compile group: 'ch.qos.logback', name:'logback-core', version: logbackVersion
-    
-    testCompile group: 'io.grpc', name: 'grpc-testing', version: grpcVersion
+
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
 // Define the main class used for the executable artifacts
-mainClassName = 'kz.ya.wallet.srv.WalletServer'
+mainClassName = 'kz.ya.wallet.client.WalletClient'
 
 jar {
     manifest {
