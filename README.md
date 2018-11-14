@@ -33,9 +33,6 @@ Build the project
 - From project directory run
  > ./gradlew build
 
-- If you want to run the tests on Wallet Server, simply run
-> ./gradlew :wallet-server:test
-
 To run the Java server and client locally:
 ```
 # Start the server (listens on port 8980)
