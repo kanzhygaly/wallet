@@ -1,7 +1,9 @@
 # wallet
 
 **wallet-proto** gRPC Service Interface (API).
+
 **wallet-server** keeps track of a users monetary balance in the system.
+
 **wallet-client** emulates users depositing and withdrawing funds.
 
 ## Technology stack
@@ -14,7 +16,7 @@
  - SLF4J
  
 ## Database Setup
-Install PostgreSQL, my local is v10.1
+Install PostgreSQL, then:
 ```
 # Open command line from project directory and Login to PostgreSQL server
 psql -U postgres -h localhost
