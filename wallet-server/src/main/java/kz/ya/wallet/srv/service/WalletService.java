@@ -41,7 +41,10 @@ public class WalletService extends WalletServiceGrpc.WalletServiceImplBase {
         if (accounts.isEmpty()) {
             String msg = "There's no Accounts for User " + request.getUserId();
             logger.warn(msg);
-            responseObserver.onError(new AccountNotFoundException(msg));
+            responseObserver.onError(Status.NOT_FOUND
+                    .withDescription(msg)
+                    .withCause(new AccountNotFoundException(msg))
+                    .asRuntimeException());
             return;
         }
 
@@ -68,6 +71,7 @@ public class WalletService extends WalletServiceGrpc.WalletServiceImplBase {
             responseObserver.onError(Status.INTERNAL
                     .withDescription(ex.getMessage())
                     .augmentDescription("Unknown currency")
+                    .withCause(ex)
                     .asRuntimeException());
             return;
         }
@@ -77,7 +81,10 @@ public class WalletService extends WalletServiceGrpc.WalletServiceImplBase {
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             String msg = "Not valid amount";
             logger.error(msg);
-            responseObserver.onError(new NotValidAmountException(msg));
+            responseObserver.onError(Status.INVALID_ARGUMENT
+                    .withDescription(msg)
+                    .withCause(new NotValidAmountException(msg))
+                    .asRuntimeException());
             return;
         }
 
@@ -86,7 +93,10 @@ public class WalletService extends WalletServiceGrpc.WalletServiceImplBase {
         if (!account.isPresent()) {
             String msg = "There's no " + currencyCode + " Account for User " + request.getUserId();
             logger.warn(msg);
-            responseObserver.onError(new AccountNotFoundException(msg));
+            responseObserver.onError(Status.NOT_FOUND
+                    .withDescription(msg)
+                    .withCause(new AccountNotFoundException(msg))
+                    .asRuntimeException());
             return;
         }
 
@@ -124,6 +134,7 @@ public class WalletService extends WalletServiceGrpc.WalletServiceImplBase {
             responseObserver.onError(Status.INTERNAL
                     .withDescription(ex.getMessage())
                     .augmentDescription("Unknown currency")
+                    .withCause(ex)
                     .asRuntimeException());
             return;
         }
@@ -133,7 +144,10 @@ public class WalletService extends WalletServiceGrpc.WalletServiceImplBase {
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             String msg = "Not valid amount";
             logger.error(msg);
-            responseObserver.onError(new NotValidAmountException(msg));
+            responseObserver.onError(Status.INVALID_ARGUMENT
+                    .withDescription(msg)
+                    .withCause(new NotValidAmountException(msg))
+                    .asRuntimeException());
             return;
         }
 
@@ -142,7 +156,10 @@ public class WalletService extends WalletServiceGrpc.WalletServiceImplBase {
         if (!account.isPresent()) {
             String msg = "There's no " + currencyCode + " Account for User " + request.getUserId();
             logger.warn(msg);
-            responseObserver.onError(new AccountNotFoundException(msg));
+            responseObserver.onError(Status.NOT_FOUND
+                    .withDescription(msg)
+                    .withCause(new AccountNotFoundException(msg))
+                    .asRuntimeException());
             return;
         }
 
@@ -158,6 +175,7 @@ public class WalletService extends WalletServiceGrpc.WalletServiceImplBase {
             responseObserver.onError(Status.INTERNAL
                     .withDescription(ex.getMessage())
                     .augmentDescription("Deposit Transaction Failed")
+                    .withCause(ex)
                     .asRuntimeException());
             return;
         }
