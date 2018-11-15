@@ -34,7 +34,10 @@ ALTER SCHEMA public OWNER TO wallet_user;
 \q
 
 # Create Database Data
-psql -U wallet_user -d wallet -a -f wallet-server/create-db.sql
+psql -U wallet_user -d wallet -a -f db-setup/create-db.sql
+
+# Insert Initial Data
+psql -U wallet_user -d wallet -a -f db-setup/init-db.sql
 ```
 
 ## Build and Run

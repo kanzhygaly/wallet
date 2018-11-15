@@ -68,7 +68,7 @@ public class WalletService extends WalletServiceGrpc.WalletServiceImplBase {
         } catch (UnknownCurrencyException ex) {
             logger.error(ex.getMessage(), ex);
 
-            responseObserver.onError(Status.INTERNAL
+            responseObserver.onError(Status.INVALID_ARGUMENT
                     .withDescription(ex.getMessage())
                     .augmentDescription("Unknown currency")
                     .withCause(ex)
@@ -131,7 +131,7 @@ public class WalletService extends WalletServiceGrpc.WalletServiceImplBase {
         } catch (UnknownCurrencyException ex) {
             logger.error(ex.getMessage(), ex);
 
-            responseObserver.onError(Status.INTERNAL
+            responseObserver.onError(Status.INVALID_ARGUMENT
                     .withDescription(ex.getMessage())
                     .augmentDescription("Unknown currency")
                     .withCause(ex)
