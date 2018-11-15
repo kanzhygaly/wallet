@@ -5,14 +5,8 @@
  */
 package kz.ya.wallet.client;
 
-import io.grpc.StatusRuntimeException;
-import kz.ya.wallet.BalanceRequest;
-import kz.ya.wallet.BalanceResponse;
 import kz.ya.wallet.Currency;
-import kz.ya.wallet.TransactionRequest;
 import kz.ya.wallet.WalletServiceGrpc;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -20,124 +14,77 @@ import org.slf4j.LoggerFactory;
  */
 public class ClientWorker {
 
-    private final Logger logger = LoggerFactory.getLogger(ClientWorker.class);
     private final long userId = 11111L;
 
     private void doRoundA(WalletServiceGrpc.WalletServiceBlockingStub stub) {
+        ClientApi clientApi = new ClientApi(stub);
+        
         // Deposit 100 USD
-        TransactionRequest transactionRequest = TransactionRequest.newBuilder()
-                .setUserId(userId)
-                .setAmount(100)
-                .setCurrency(Currency.USD)
-                .build();
-        try {
-            stub.deposit(transactionRequest);
-
-            logger.info("User [" + userId + "]: Deposit 100 USD");
-        } catch (StatusRuntimeException ex) {
-            logger.error(ex.getMessage());
-        }
-
+        clientApi.deposit(userId, Currency.USD, 100);
+        
         // Withdraw 200 USD
-        transactionRequest = TransactionRequest.newBuilder()
-                .setUserId(userId)
-                .setAmount(200)
-                .setCurrency(Currency.USD)
-                .build();
-        try {
-            stub.withdraw(transactionRequest);
-
-            logger.info("User [" + userId + "]: Withdraw 200 USD");
-        } catch (StatusRuntimeException ex) {
-            logger.error(ex.getMessage());
-        }
+        clientApi.withdraw(userId, Currency.USD, 200);
 
         // Deposit 100 EUR
-        transactionRequest = TransactionRequest.newBuilder()
-                .setUserId(userId)
-                .setAmount(100)
-                .setCurrency(Currency.EUR)
-                .build();
-        try {
-            stub.deposit(transactionRequest);
-
-            logger.info("User [" + userId + "]: Deposit 100 EUR");
-        } catch (StatusRuntimeException ex) {
-            logger.error(ex.getMessage());
-        }
+        clientApi.deposit(userId, Currency.EUR, 100);
 
         // Get Balance
-        BalanceRequest balanceRequest = BalanceRequest.newBuilder()
-                .setUserId(userId)
-                .build();
-        try {
-            BalanceResponse balanceResponse = stub.balance(balanceRequest);
-            
-            double balanceUSD = balanceResponse.getBalanceByCurrencyOrThrow(Currency.USD.name());
-            logger.info("User [" + userId + "]: USD balance " + balanceUSD);
-            
-            double balanceEUR = balanceResponse.getBalanceByCurrencyOrThrow(Currency.EUR.name());
-            logger.info("User [" + userId + "]: EUR balance " + balanceEUR);
-            
-            double balanceGBP = balanceResponse.getBalanceByCurrencyOrThrow(Currency.GBP.name());
-            logger.info("User [" + userId + "]: GBP balance " + balanceGBP);
-        } catch (StatusRuntimeException ex) {
-            logger.error(ex.getMessage());
-        }
+        clientApi.balance(userId);
 
         // Withdraw 100 USD
-        transactionRequest = TransactionRequest.newBuilder()
-                .setUserId(userId)
-                .setAmount(100)
-                .setCurrency(Currency.USD)
-                .build();
-        try {
-            stub.withdraw(transactionRequest);
-
-            logger.info("User [" + userId + "]: Withdraw 100 USD");
-        } catch (StatusRuntimeException ex) {
-            logger.error(ex.getMessage());
-        }
+        clientApi.withdraw(userId, Currency.USD, 100);
 
         // Get Balance
-        balanceRequest = BalanceRequest.newBuilder()
-                .setUserId(userId)
-                .build();
-        try {
-            BalanceResponse balanceResponse = stub.balance(balanceRequest);
-            
-            double balanceUSD = balanceResponse.getBalanceByCurrencyOrThrow(Currency.USD.name());
-            logger.info("User [" + userId + "]: USD balance " + balanceUSD);
-            
-            double balanceEUR = balanceResponse.getBalanceByCurrencyOrThrow(Currency.EUR.name());
-            logger.info("User [" + userId + "]: EUR balance " + balanceEUR);
-            
-            double balanceGBP = balanceResponse.getBalanceByCurrencyOrThrow(Currency.GBP.name());
-            logger.info("User [" + userId + "]: GBP balance " + balanceGBP);
-        } catch (StatusRuntimeException ex) {
-            logger.error(ex.getMessage());
-        }
+        clientApi.balance(userId);
         
         // Withdraw 100 USD
-        transactionRequest = TransactionRequest.newBuilder()
-                .setUserId(userId)
-                .setAmount(100)
-                .setCurrency(Currency.USD)
-                .build();
-        try {
-            stub.withdraw(transactionRequest);
-
-            logger.info("User [" + userId + "]: Withdraw 100 USD");
-        } catch (StatusRuntimeException ex) {
-            logger.error(ex.getMessage());
-        }
+        clientApi.withdraw(userId, Currency.USD, 100);
     }
 
     private void doRoundB(WalletServiceGrpc.WalletServiceBlockingStub stub) {
-
+        ClientApi clientApi = new ClientApi(stub);
+        
+        // Withdraw 100 GBP
+        clientApi.withdraw(userId, Currency.GBP, 100);
+        
+        // Deposit 300 GPB
+        clientApi.deposit(userId, Currency.GBP, 300);
+        
+        // Withdraw 100 GBP
+        clientApi.withdraw(userId, Currency.GBP, 100);
+        
+        // Withdraw 100 GBP
+        clientApi.withdraw(userId, Currency.GBP, 100);
+        
+        // Withdraw 100 GBP
+        clientApi.withdraw(userId, Currency.GBP, 100);
     }
 
     private void doRoundC(WalletServiceGrpc.WalletServiceBlockingStub stub) {
+        ClientApi clientApi = new ClientApi(stub);
+        
+        // Get Balance
+        clientApi.balance(userId);
+        
+        // Deposit 100 USD
+        clientApi.deposit(userId, Currency.USD, 100);
+        
+        // Deposit 100 USD
+        clientApi.deposit(userId, Currency.USD, 100);
+        
+        // Withdraw 100 USD
+        clientApi.withdraw(userId, Currency.USD, 100);
+        
+        // Deposit 100 USD
+        clientApi.deposit(userId, Currency.USD, 100);
 
+        // Get Balance
+        clientApi.balance(userId);
+
+        // Withdraw 200 USD
+        clientApi.withdraw(userId, Currency.USD, 200);
+
+        // Get Balance
+        clientApi.balance(userId);
     }
 }
