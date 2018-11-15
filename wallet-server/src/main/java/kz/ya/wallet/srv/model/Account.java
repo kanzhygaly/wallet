@@ -1,4 +1,4 @@
-package kz.ya.wallet.srv.entity;
+package kz.ya.wallet.srv.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -11,28 +11,35 @@ import javax.persistence.*;
  */
 @Entity
 @NamedQueries({
+    @NamedQuery(
+            name = "Account.findAllByUserId",
+            query = "SELECT a FROM Account a WHERE a.userId = :userId")
+    ,
         @NamedQuery(
-                name = "Account.findAllByUserId",
-                query = "SELECT a FROM Account a WHERE a.userId = :userId"),
+            name = "Account.findAllByUserIdAndCurrency",
+            query = "SELECT a FROM Account a WHERE a.userId = :userId AND a.currencyCode = :currencyCode")
+    ,
         @NamedQuery(
-                name = "Account.findAllByUserIdAndCurrency",
-                query = "SELECT a FROM Account a WHERE a.userId = :userId AND a.currencyCode = :currencyCode"),
-        @NamedQuery(
-                name = "Account.deleteByUserId",
-                query = "DELETE FROM Account a WHERE a.userId = :userId")
+            name = "Account.deleteByUserId",
+            query = "DELETE FROM Account a WHERE a.userId = :userId")
 })
+@Table(name = "account")
 public class Account implements Serializable {
 
     @Id
-    @SequenceGenerator(name="my_seq", sequenceName="seq_id")
+    @SequenceGenerator(name = "my_seq", sequenceName = "seq_id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "my_seq")
     private Long id;
-    @Column(nullable=false) 
+    
+    @Column(name = "user_id", nullable = false)
     private Long userId;
-    @Column(length=3, nullable=false)
+    
+    @Column(name = "currency_code", length = 3, nullable = false)
     private String currencyCode;
-    @Column(nullable = false)
+    
+    @Column(name = "balance", nullable = false)
     private BigDecimal balance;
+    
     @Version
     public long version;
 
@@ -112,6 +119,6 @@ public class Account implements Serializable {
 
     @Override
     public String toString() {
-        return "Account { userId = " + userId + ", currencyCode = " + currencyCode + " }";
+        return "Account{" + "userId=" + userId + ", currencyCode=" + currencyCode + ", balance=" + balance + '}';
     }
 }

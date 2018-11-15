@@ -10,7 +10,7 @@ import kz.ya.wallet.srv.dao.AccountDAO;
 import kz.ya.wallet.srv.exception.AccountNotFoundException;
 import kz.ya.wallet.srv.exception.NotValidAmountException;
 import kz.ya.wallet.srv.exception.UnknownCurrencyException;
-import kz.ya.wallet.srv.entity.Account;
+import kz.ya.wallet.srv.model.Account;
 import kz.ya.wallet.srv.util.CurrencyUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -103,6 +103,7 @@ public class WalletService extends WalletServiceGrpc.WalletServiceImplBase {
             responseObserver.onError(Status.INTERNAL
                     .withDescription(ex.getMessage())
                     .augmentDescription("Withdraw Transaction Failed")
+                    .withCause(ex)
                     .asRuntimeException());
             return;
         }

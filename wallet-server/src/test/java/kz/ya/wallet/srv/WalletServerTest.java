@@ -4,6 +4,11 @@ import io.grpc.ManagedChannel;
 import io.grpc.inprocess.InProcessChannelBuilder;
 import io.grpc.inprocess.InProcessServerBuilder;
 import io.grpc.testing.GrpcCleanupRule;
+import java.math.BigDecimal;
+import kz.ya.wallet.Currency;
+import kz.ya.wallet.srv.dao.AccountDAO;
+import kz.ya.wallet.srv.dao.impl.AccountDAOImpl;
+import kz.ya.wallet.srv.model.Account;
 import org.junit.*;
 import org.junit.rules.ExpectedException;
 
@@ -23,6 +28,9 @@ public class WalletServerTest {
 
     private static WalletServer server;
     protected static ManagedChannel inProcessChannel;
+    
+    private final static AccountDAO accountDAO = new AccountDAOImpl();
+    protected final static long userId = 1L;
 
     @BeforeClass
     public static void setUpClass() throws Exception {
@@ -36,12 +44,20 @@ public class WalletServerTest {
         // Create a client channel and register for automatic graceful shutdown.
         inProcessChannel = grpcCleanup.register(
                 InProcessChannelBuilder.forName(serverName).directExecutor().build());
+        
+        // USD account
+        Account usd = accountDAO.saveOrUpdate(new Account(userId, Currency.USD.name(), BigDecimal.ZERO));
+        // EUR account
+        Account eur = accountDAO.saveOrUpdate(new Account(userId, Currency.EUR.name(), BigDecimal.ZERO));
+        // GBP account
+        Account gbp = accountDAO.saveOrUpdate(new Account(userId, Currency.GBP.name(), BigDecimal.ZERO));
     }
 
     @AfterClass
     public static void tearDownClass() {
-        // close connections and shutdown the server
-        DbConnection.closeEntityManagerFactory();
+        int num = accountDAO.deleteByUserId(userId);
+        System.out.println(num + " Accounts for User " + userId + " were deleted");
+        
         server.stop();
     }
 }

@@ -56,8 +56,8 @@ public class WalletServer {
      */
     public void stop() {
         if (server != null) {
-//            System.err.println("*** close Database Connections");
-//            DbConnection.closeEntityManagerFactory();
+            System.err.println("*** close Database Connections");
+            DbConnection.closeEntityManagerFactory();
 
             server.shutdown();
         }

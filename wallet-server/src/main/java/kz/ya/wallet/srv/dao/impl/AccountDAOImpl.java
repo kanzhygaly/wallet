@@ -10,7 +10,7 @@ import kz.ya.wallet.srv.dao.AccountDAO;
 import kz.ya.wallet.srv.exception.AccountLockException;
 import kz.ya.wallet.srv.exception.AccountNotFoundException;
 import kz.ya.wallet.srv.exception.InsufficientFundsException;
-import kz.ya.wallet.srv.entity.Account;
+import kz.ya.wallet.srv.model.Account;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,15 +70,23 @@ public class AccountDAOImpl implements AccountDAO {
      */
     @Override
     public Account saveOrUpdate(Account entity) {
-        DbConnection.beginTransaction();
+        try {
+            DbConnection.beginTransaction();
 
-        Account result = DbConnection.getEntityManager().merge(entity);
+            Account result = DbConnection.getEntityManager().merge(entity);
 
-        DbConnection.commit();
+            DbConnection.commit();
 
-        DbConnection.closeEntityManager();
-
-        return result;
+            return result;
+        } catch (RuntimeException ex) {
+            if (DbConnection.getEntityManager() != null && DbConnection.getEntityManager().isOpen()) {
+                DbConnection.rollback();
+            }
+            logger.error(ex.getMessage());
+            throw ex;
+        } finally {
+            DbConnection.closeEntityManager();
+        }
     }
 
     /**
@@ -89,16 +97,24 @@ public class AccountDAOImpl implements AccountDAO {
      */
     @Override
     public void delete(Long id) {
-        DbConnection.beginTransaction();
+        try {
+            DbConnection.beginTransaction();
 
-        Account targetAccount = findById(id).orElseThrow(
-                () -> new AccountNotFoundException("Account with ID " + id + " doesn't exist!"));
+            Account targetAccount = findById(id).orElseThrow(
+                    () -> new AccountNotFoundException("Account with ID " + id + " doesn't exist!"));
 
-        DbConnection.getEntityManager().remove(targetAccount);
+            DbConnection.getEntityManager().remove(targetAccount);
 
-        DbConnection.commit();
-
-        DbConnection.closeEntityManager();
+            DbConnection.commit();
+        } catch (RuntimeException ex) {
+            if (DbConnection.getEntityManager() != null && DbConnection.getEntityManager().isOpen()) {
+                DbConnection.rollback();
+            }
+            logger.error(ex.getMessage());
+            throw ex;
+        } finally {
+            DbConnection.closeEntityManager();
+        }
     }
 
     /**
@@ -109,18 +125,26 @@ public class AccountDAOImpl implements AccountDAO {
      */
     @Override
     public int deleteByUserId(Long userId) {
-        DbConnection.beginTransaction();
+        try {
+            DbConnection.beginTransaction();
 
-        int deletedCount = DbConnection.getEntityManager()
-                .createNamedQuery("Account.deleteByUserId")
-                .setParameter("userId", userId)
-                .executeUpdate();
+            int deletedCount = DbConnection.getEntityManager()
+                    .createNamedQuery("Account.deleteByUserId")
+                    .setParameter("userId", userId)
+                    .executeUpdate();
 
-        DbConnection.commit();
+            DbConnection.commit();
 
-        DbConnection.closeEntityManager();
-        
-        return deletedCount;
+            return deletedCount;
+        } catch (RuntimeException ex) {
+            if (DbConnection.getEntityManager() != null && DbConnection.getEntityManager().isOpen()) {
+                DbConnection.rollback();
+            }
+            logger.error(ex.getMessage());
+            throw ex;
+        } finally {
+            DbConnection.closeEntityManager();
+        }
     }
 
     /**
@@ -133,28 +157,36 @@ public class AccountDAOImpl implements AccountDAO {
      */
     @Override
     public void updateAccountBalance(Long accountId, BigDecimal deltaAmount) {
-        DbConnection.beginTransaction();
+        try {
+            DbConnection.beginTransaction();
 
-        Account targetAccount = DbConnection.getEntityManager().find(
-                Account.class, accountId, LockModeType.READ);
+            Account targetAccount = DbConnection.getEntityManager().find(
+                    Account.class, accountId, LockModeType.READ);
 
-        if (targetAccount == null) {
-            throw new AccountLockException("Failed to lock Account with ID " + accountId);
+            if (targetAccount == null) {
+                throw new AccountLockException("Failed to lock Account with ID " + accountId);
+            }
+
+            // update account upon success locking
+            BigDecimal balance = targetAccount.getBalance().add(deltaAmount);
+            if (balance.compareTo(BigDecimal.ZERO) < 0) {
+                throw new InsufficientFundsException("Not enough funds on " + targetAccount);
+            }
+
+            // proceed with update
+            targetAccount.setBalance(balance);
+
+            DbConnection.getEntityManager().merge(targetAccount);
+
+            DbConnection.commit();
+        } catch (RuntimeException ex) {
+            if (DbConnection.getEntityManager() != null && DbConnection.getEntityManager().isOpen()) {
+                DbConnection.rollback();
+            }
+            logger.error(ex.getMessage());
+            throw ex;
+        } finally {
+            DbConnection.closeEntityManager();
         }
-
-        // update account upon success locking
-        BigDecimal balance = targetAccount.getBalance().add(deltaAmount);
-        if (balance.compareTo(BigDecimal.ZERO) < 0) {
-            throw new InsufficientFundsException("Not enough funds on " + targetAccount);
-        }
-
-        // proceed with update
-        targetAccount.setBalance(balance);
-
-        DbConnection.getEntityManager().merge(targetAccount);
-
-        DbConnection.commit();
-
-        DbConnection.closeEntityManager();
     }
 }
